@@ -24,7 +24,7 @@ namespace Domain.DataAccess.Repositories
                 .AsNoTracking()
                 .ToListAsync();
             var products = productEntities
-                .Select(b => Product.Create(b.Id, b.Name, b.Description, b.Price, b.CreatedAt).Product)
+                .Select(b => Product.Create(b.Id, b.Name, b.Description, b.Price, b.CreatedAt, b.CategoryId).Product)
                 .ToList();
             return products;
         }
@@ -48,7 +48,7 @@ namespace Domain.DataAccess.Repositories
                 .FirstOrDefaultAsync(b => b.Id == id); // linq метод поиска по ключевому полю 
             if (productEntity != null)
             { // Метод Create возвращает кортеж 
-                var (productbyId, _) = Product.Create(productEntity.Id, productEntity.Name, productEntity.Description, productEntity.Price, productEntity.CreatedAt);
+                var (productbyId, _) = Product.Create(productEntity.Id, productEntity.Name, productEntity.Description, productEntity.Price, productEntity.CreatedAt, productEntity.CategoryId);
                 return productbyId;
             }
             else

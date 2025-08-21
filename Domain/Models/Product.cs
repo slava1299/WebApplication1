@@ -10,13 +10,14 @@ namespace Domain.Models
     public class Product
     {
 
-        private Product(Guid id, string name, string description, decimal price, DateTime createdAt)
+        private Product(Guid id, string name, string description, decimal price, DateTime createdAt, Guid categoryId)
         {
             Id = id;
             Name = name;
             Description = description;
             Price = price;
             CreatedAt = createdAt;
+            CategoryId = categoryId;
         }
 
         // Вместо Guid можно использовать long
@@ -26,9 +27,11 @@ namespace Domain.Models
         public decimal Price { get; }
         public DateTime CreatedAt { get; }
 
-        public static (Product Product, string Error) Create(Guid id, string name, string description, decimal price, DateTime createdAt)
+        public Guid CategoryId { get; }
+
+        public static (Product Product, string Error) Create(Guid id, string name, string description, decimal price, DateTime createdAt, Guid categoryId)
         {
-            var product = new Product(id, name, description, price, createdAt); 
+            var product = new Product(id, name, description, price, createdAt, categoryId); 
             var error = string.Empty;
             if (price < 0)
             {
@@ -37,6 +40,9 @@ namespace Domain.Models
             return (product, error);
 
         }
-            
+        public virtual Category Category { get; private set; }
+
+        // Промежуточная коллекция OrderItems
+        public virtual ICollection<OrderItem> OrderItems { get; private set; } = new List<OrderItem>();
     }
 }

@@ -17,7 +17,6 @@ namespace Domain.Models
             Name = name;
             Description = description;
         }
-
         public Guid Id { get; }
         public string Name { get; } = string.Empty;
         public string Description { get; } = string.Empty;
@@ -30,6 +29,7 @@ namespace Domain.Models
             return (category, error);
 
         }
-
+        // Коллекция продуктов в категории
+        public ICollection<Product> Products { get; private set; } = new List<Product>();
     }
 }
